@@ -8,3 +8,8 @@
 - A **Domain layer** for business logic.
 - **CSV parsing** to download and show stock data.
 - [Chart Library](https://github.com/Madrapps/plot) build for compose to show stock data.
+
+# Screenshots
+![List of Stocks](https://user-images.githubusercontent.com/107148566/172708507-63b06eae-05b7-46a8-89e3-357a525cec42.jpg)
+![Searching Stock](https://user-images.githubusercontent.com/107148566/172709164-30f32078-69f6-4963-bd39-2f2ad05988c9.jpg)
+![Stock Info](https://user-images.githubusercontent.com/107148566/172709178-fd7d9c80-a929-4c33-beee-047237b9b246.jpg)
