@@ -1,0 +1,99 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.example.stockmarket"
+        minSdk 23
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        // Flag to enable support for the new language APIs
+        coreLibraryDesugaringEnabled true
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+
+    implementation libs.core
+
+    coreLibraryDesugaring libs.desugar_jdk
+
+    // Compose
+    implementation libs.material
+    implementation libs.compose_ui
+//    implementation libs.compose_foundation
+    debugImplementation libs.compose_ui_tool
+    implementation libs.compose_ui_tool_prew
+//    implementation libs.viewmodel_compose
+    implementation libs.lifecycle_runtime
+    implementation libs.activity_compose
+
+    // Hilt
+    implementation libs.hilt
+    kapt libs.dagger_hilt_compiler
+    kapt libs.hilt_compiler
+    implementation libs.hilt_viewmodel
+    implementation libs.navigation_compose
+
+    // Retrofit
+    implementation libs.retrofit
+    implementation libs.retrofit_converter
+    implementation libs.okhttp_logging
+
+    // Room
+    implementation libs.room
+    kapt libs.room_compiler
+
+    implementation libs.swipe_refresh
+
+    // Third-Party
+    implementation libs.open_csv
+    implementation libs.graph
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+}
+
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}

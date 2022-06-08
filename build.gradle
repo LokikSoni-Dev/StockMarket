@@ -1,0 +1,134 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+
+    ext {
+        dagger_hilt_version = '2.38.1'
+    }
+
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$dagger_hilt_version"
+    }
+}
+
+plugins {
+    id 'com.android.application' version "7.1.0" apply false
+    id 'com.android.library' version "7.1.0" apply false
+    id 'org.jetbrains.kotlin.android' version "1.6.10" apply false
+}
+
+ext {
+
+    core_version            = '1.7.0'
+
+    desugar_version         = '1.1.5'
+
+    compose_version         = '1.1.1'
+    lifecycle_version       = '2.4.1'
+    activity_version        = '1.4.0'
+    hilt_version            = '1.0.0'
+    hitl_viewmodel_version  = '1.0.0-alpha03'
+    retrofit_version        = '2.9.0'
+    okhttp_version          = '4.9.3'
+    room_version            = '2.4.2'
+    swipe_ref_version       = '0.24.9-beta'
+
+    // Third-Party
+    csv_version             = '5.6'
+    graph                   = '0.1.1'
+
+    libs = [
+
+            /**
+             * Core lib.
+             * https://developer.android.com/jetpack/androidx/releases/core
+             */
+            core                    : "androidx.core:core-ktx:$core_version",
+
+            /**
+             * Support for using a number of Java 8 language APIs
+             * without requiring a minimum API level for your app.
+             * https://developer.android.com/studio/write/java8-support#library-desugaring
+             */
+            desugar_jdk             : "com.android.tools:desugar_jdk_libs:$desugar_version",
+
+            /**
+             * Material & Compose UI Lib.
+             * https://developer.android.com/jetpack/androidx/releases/compose-material
+             */
+            material                : "androidx.compose.material:material:$compose_version",
+            compose_ui              : "androidx.compose.ui:ui:$compose_version",
+//            compose_foundation      : "androidx.compose.foundation:foundation:$compose_version",
+
+            /**
+             * Compose support Lib.
+             * https://developer.android.com/jetpack/compose/tooling
+             */
+            compose_ui_tool         : "androidx.compose.ui:ui-tooling:$compose_version",
+            compose_ui_tool_prew    : "androidx.compose.ui:ui-tooling-preview:$compose_version",
+
+            /**
+             * Lifecycle Libs.
+             * https://developer.android.com/jetpack/androidx/releases/lifecycle
+             */
+            viewmodel_compose       : "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version",
+            lifecycle_runtime       : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version",
+
+
+            /**
+             * Activity Compose Lib.
+             * https://developer.android.com/jetpack/androidx/releases/activity
+             */
+            activity_compose        : "androidx.activity:activity-compose:$activity_version",
+
+            /**
+             * Hilt Libs.
+             * https://developer.android.com/training/dependency-injection/hilt-android
+             * https://developer.android.com/jetpack/androidx/releases/hilt
+             */
+            hilt                    : "com.google.dagger:hilt-android:$dagger_hilt_version",
+            dagger_hilt_compiler    : "com.google.dagger:hilt-compiler:$dagger_hilt_version",
+            hilt_compiler           : "androidx.hilt:hilt-compiler:$hilt_version",
+            hilt_viewmodel          : "androidx.hilt:hilt-lifecycle-viewmodel:$hitl_viewmodel_version",
+            navigation_compose      : "androidx.hilt:hilt-navigation-compose:$hilt_version",
+
+
+            /**
+             * Retrofit for API calling.
+             */
+            retrofit                : "com.squareup.retrofit2:retrofit:$retrofit_version",
+            retrofit_converter      : "com.squareup.retrofit2:converter-moshi:$retrofit_version",
+            okhttp_logging          : "com.squareup.okhttp3:logging-interceptor:$okhttp_version",
+
+            /**
+             * Room (Local Storage for Android).
+             * https://developer.android.com/jetpack/androidx/releases/room
+             */
+            room_runtime            : "androidx.room:room-runtime:$room_version",       // TODO remove this if no use
+            // Room extensions add coroutines support for database transactions.
+            room                    : "androidx.room:room-ktx:$room_version",
+            room_compiler           : "androidx.room:room-compiler:$room_version",
+
+
+            /**
+             * Swipe to refresh Lib.
+             * https://github.com/google/accompanist/tree/main/swiperefresh
+             */
+            swipe_refresh           : "com.google.accompanist:accompanist-swiperefresh:$swipe_ref_version",
+
+            /**
+             * A simple library for reading and writing CSV in Kotlin.
+             * https://mvnrepository.com/artifact/com.opencsv/opencsv/5.6
+             */
+            open_csv                : "com.opencsv:opencsv:$csv_version",
+
+            /**
+             * An android compose library with different Graphs and Charts.
+             * https://github.com/Madrapps/plot.
+             */
+            graph                   : "com.github.madrapps:plot:$graph"
+    ]
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
