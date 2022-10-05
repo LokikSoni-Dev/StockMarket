@@ -10,6 +10,7 @@ import com.example.stockmarket.util.WhileViewSubscribed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class StockInfoViewModel @Inject constructor(
 ): ViewModel() {
 
     private val _stockInfoState = MutableStateFlow(StockInfoState())
-    val stockInfoState = _stockInfoState
+    val stockInfoState = _stockInfoState.asStateFlow()
         .stateIn(
             viewModelScope,
             WhileViewSubscribed,
@@ -42,6 +43,7 @@ class StockInfoViewModel @Inject constructor(
         viewModelScope.launch {
             savedStateHandle.get<String>("symbol")?.let { symbol ->
 
+                // TODO optimize this
                 coroutineScope {
                     _stockRepository.getStockInfo(symbol).collect { stockInfoResult ->
                         _stockInfoState.update { stockInfoState ->

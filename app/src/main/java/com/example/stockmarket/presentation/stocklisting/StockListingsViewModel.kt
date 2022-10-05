@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,10 +28,12 @@ class StockListingsViewModel @Inject constructor(
     private val _stockRepository: StockRepository
 ): ViewModel() {
 
+    // TODO try to use paging with room
+    // TODO make splash screen
     private val _stockListingsState = MutableStateFlow(StockListingsState())
-    val stockState = _stockListingsState.stateIn(
-        viewModelScope, WhileViewSubscribed, StockListingsState()
-    )
+    val stockState = _stockListingsState
+        .asStateFlow()
+        .stateIn(viewModelScope, WhileViewSubscribed, StockListingsState())
 
     // To keep track of coroutine job
     private var searchJob: Job? = null

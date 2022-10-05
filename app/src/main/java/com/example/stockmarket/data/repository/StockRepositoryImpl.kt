@@ -6,16 +6,13 @@ import com.example.stockmarket.data.mapper.toStockInfo
 import com.example.stockmarket.data.mapper.toStockListing
 import com.example.stockmarket.data.mapper.toStockListingEntity
 import com.example.stockmarket.data.remote.StockApi
-import com.example.stockmarket.di.IoDispatcher
 import com.example.stockmarket.domain.model.IntraDayInfo
 import com.example.stockmarket.domain.model.StockListing
 import com.example.stockmarket.domain.repository.StockRepository
 import com.example.stockmarket.util.Result
 import com.example.stockmarket.util.StockMarketException
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
 import javax.inject.Inject
@@ -34,7 +31,6 @@ class StockRepositoryImpl @Inject constructor(
     private val _stockApi: StockApi,
     private val _stockListingsParser: CSVParser<StockListing>,
     private val _intraDayInfoParser: CSVParser<IntraDayInfo>,
-    @IoDispatcher private val _dispatcher: CoroutineDispatcher
 ): StockRepository {
 
     override suspend fun getStockListings(
@@ -52,13 +48,11 @@ class StockRepositoryImpl @Inject constructor(
             val localStockListing = _stockDao.searchStockListing(query)
 
             // We will consider DB empty only if it is in initial stage and there is nothing in DB.
-            // Not when we search for stock using query like 'xyz' which doesn't exist in DB in
-            // this case DB will also empty but we will not consider it because in this case
-            // we don't want to call API.
+            // Not when we search for stock using query like 'xyz' which doesn't exist in DB
             // So we have checked query.isBlank() also.
             val isDbEmpty = localStockListing.isEmpty() && query.isBlank()
 
-            // load data from local db and return only if db not empty and fetchFromRemote false
+            // load data from local db and return only if (DB not empty && fetchFromRemote false)
             val shouldLoadFromCache = !isDbEmpty && !fetchFromRemote
             if (shouldLoadFromCache) {
                 emit(
@@ -75,7 +69,7 @@ class StockRepositoryImpl @Inject constructor(
                 val stockListing = try {
                     val response = _stockApi.getStockListings()
                     // If the list is empty return null
-                    _stockListingsParser.parse(response.byteStream()).ifEmpty { null }
+                    _stockListingsParser(response.byteStream()).ifEmpty { null }
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -100,7 +94,7 @@ class StockRepositoryImpl @Inject constructor(
                     emit(Result.Error(StockMarketException.FailedToGetStockListing))
                 }
             }
-        }.flowOn(_dispatcher)
+        }
     }
 
     override suspend fun getIntraDayInfo(symbol: String) = flow {
@@ -108,7 +102,7 @@ class StockRepositoryImpl @Inject constructor(
 
         val intraDayInfo =  try {
             val response = _stockApi.getIntraDayInfo(symbol)
-            _intraDayInfoParser.parse(response.byteStream()).ifEmpty { null }
+            _intraDayInfoParser(response.byteStream()).ifEmpty { null }
 
         } catch (e: IOException) {
             e.printStackTrace()
@@ -123,8 +117,7 @@ class StockRepositoryImpl @Inject constructor(
         } ?: kotlin.run {
             emit(Result.Error(StockMarketException.FailedToGetIntraDayInfo))
         }
-
-    }.flowOn(_dispatcher)
+    }
 
     override suspend fun getStockInfo(symbol: String) = flow {
         emit(Result.Loading)
@@ -145,6 +138,5 @@ class StockRepositoryImpl @Inject constructor(
         } ?: kotlin.run {
             emit(Result.Error(StockMarketException.FailedToGetStockInfo))
         }
-
-    }.flowOn(_dispatcher)
+    }
 }

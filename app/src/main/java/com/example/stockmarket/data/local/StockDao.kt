@@ -3,8 +3,8 @@ package com.example.stockmarket.data.local
 import androidx.room.*
 
 /**
- * [StockDao] interface to define all
- * Query methods to interact with Database.
+ * [StockDao] interface to define all Query methods
+ * use to interact with the Database.
  *
  * @author Lokik Soni
  * Created on 18/05/2022

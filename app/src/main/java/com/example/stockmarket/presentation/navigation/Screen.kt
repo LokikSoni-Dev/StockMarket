@@ -6,7 +6,7 @@ const val SPLASH_ROUTE = "splash"
 const val HOME_ROUTE = "home"
 
 /**
- * Contains the route for navigation between screens.
+ * Contain the routes for navigation between screens.
  *
  * @author Lokik Soni
  * Created On 20-05-2022

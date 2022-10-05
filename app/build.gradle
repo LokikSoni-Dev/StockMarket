@@ -51,26 +51,23 @@ android {
 
 dependencies {
 
-    implementation libs.core
-
     coreLibraryDesugaring libs.desugar_jdk
 
-    // Compose
-    implementation libs.material
+    // Jetpack Compose
+    implementation libs.activity_compose
     implementation libs.compose_ui
-//    implementation libs.compose_foundation
     debugImplementation libs.compose_ui_tool
     implementation libs.compose_ui_tool_prew
-//    implementation libs.viewmodel_compose
-    implementation libs.lifecycle_runtime
-    implementation libs.activity_compose
-
-    // Hilt
-    implementation libs.hilt
-    kapt libs.dagger_hilt_compiler
-    kapt libs.hilt_compiler
-    implementation libs.hilt_viewmodel
+    implementation libs.compose_foundation
+    implementation libs.material
+    implementation libs.viewmodel_compose
     implementation libs.navigation_compose
+
+    // Jetpack
+    implementation libs.core
+    implementation libs.lifecycle_runtime
+    implementation libs.hilt
+    kapt libs.hilt_compiler
 
     // Retrofit
     implementation libs.retrofit
@@ -78,9 +75,11 @@ dependencies {
     implementation libs.okhttp_logging
 
     // Room
+    implementation libs.room_runtime
     implementation libs.room
     kapt libs.room_compiler
 
+    // Accompanist for compose
     implementation libs.swipe_refresh
 
     // Third-Party

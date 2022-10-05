@@ -18,7 +18,7 @@ abstract class CSVParser<T>(
     /**
      * Executes the parsing asynchronously and returns a List.
      */
-    suspend fun parse(inputStream: InputStream): List<T> {
+    suspend operator fun invoke(inputStream: InputStream): List<T> {
         return withContext(_coroutineDispatcher) {
             execute(inputStream)
         }

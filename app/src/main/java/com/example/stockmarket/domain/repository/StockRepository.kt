@@ -19,7 +19,7 @@ import kotlinx.coroutines.flow.Flow
 interface StockRepository {
 
     /**
-     * Provide the list of Stocks.
+     * Provide the list of Stock.
      * [fetchFromRemote] to decide whether to get data from API or local DB.
      * [query] to filter data from DB.
      */
